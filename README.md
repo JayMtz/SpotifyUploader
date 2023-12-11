@@ -31,187 +31,90 @@ The intended use of this program is to take a list of songs and upload them onto
   - creates a custome User Spotify playlist
   - takes the uploaded list of songs and uploads them to the newly created playlist
 
-### The following Controllers handle routings and are the main files to look at to view the end point functions
-    -Users Controller
-        src/users/users.controller.ts
-    -Spotify Songs Controller
-        src/spotify-songs/spotify-songs.controller.ts
-    -Apple Music Songs Controller
-        src/apple-music-songs/apple-music-songs.controller.ts
+### The following endpoints to perform User actions
+   - Create a new user
+     > @POST
+     ```
+        http://localhost:3000/users/createuser/USER_EMAIL
+     ```
 
 
-### END POINTS TO CREATE/DELTE USERS AND USERS ACCOUNT INFO & INTERACT WITH USER APP SERVICES
-     //Call to create a new user
-        POST
-        http://localhost:3000/users/createuser/NEW_USER_EMAIL
-
-    //Add a Spotify Id to a user
-        PUT
+  - Add a Spotify Id to a user
+    > @PUT
+    ```
         http://localhost:3000/users/USER_EMAIL/addSpotifyId
-        (accepts the following JSON object)
-        (must be valid Spotfy Auth token)
+    ```
+    > accepts the following JSON object (must be valid Spotfy Auth token)
+    ```
         {
             "token": "1234459"
         }
+     ```
+
+-  Add Song(s) to a user
+   >@POST
+   ```
+        http://localhost:3000/Songs/addSongs/USER_EMAIL
+   ```
+   >accepts a array of JSON Objects 
+   ```
+   [
+    {
+      "SongName": "The Middle",
+      "SongArtist": "Jimmy Eat World"
+    },
+    {
+    "SongName": "Ohio Is for Lovers",
+    "SongArtist": "Hawthorne Heights"
+    }
+   ]
+   ```
+
+ - Create a Spotify Playlist for a user
+      >@Post
+      ```
+      http://localhost:3000/users/USER_EMAIL/createSpotifyPlaylist
+      ```
+      >accepts the following JSON object (must be valid Spotfy Auth token)
+      ```
+        {
+            "token": "1234459"
+        }
+      ```
+
+- Upload Songs to a Users new Playlist
+  >@Post
+  ```
+     http://localhost:3000/users/USER_EMAIL/uploadSongsToSpotify
+  ```
+  >accepts the following JSON object (must be valid Spotfy Auth token)
+   ```
+        {
+            "token": "1234459"
+        }
+   ```
+
         
-    //Create a Spotify Playlist for a user
-     @Post
-     http://localhost:3000/users/USER_EMAIL/createSpotifyPlaylist
-     (accepts the following JSON object)
-        (must be valid Spotfy Auth token)
-        {
-            "token": "1234459"
-        }
+    
+This is intended to be used with the following SQL Scehma 
+
+- Songs Table
+  ```
+  CREATE TABLE
+  `UserSongs` (
+    `SpotifyId` varchar(255) NOT NULL,
+    `SongName` varchar(255) NOT NULL,
+    `SongArtist` varchar(255) NOT NULL,
+    UNIQUE KEY `unique_Song` (`SongName`, `SongArtist`)
+  ) 
+  ```
 
 
-    //Add a Apple Music Id to a user 
-        PUT
-        http://localhost:3000/users/USER_EMAIL/addAppleMusicId/APPLE_MUSIC_ID
-
-    //Return all users
-        GET
-        http://localhost:3000/users/returnAllUsers
-        (returns a Arry of JSON objects) ex:
-            [
-                {
-                    "email": "jxspell@hotmail.com",
-                    "spotifyId": "jayerds",
-                    "appleMusicId": null
-                },
-                {
-                    "email": "thuy@gmail.com",
-                    "spotifyId": "Thuuuy",
-                    "appleMusicId": null
-                }
-            ]
-
-    //Delete a user
-        DELETE
-        http://localhost:3000/users/USER_EMAIL
-
-### END POINTS TO MANIPULATE USERS SPOTIFY SONGS DATA
-
-    //Add Spotify Song(s) to a user
-        POST
-        http://localhost:3000/spotifySongs/addSpotifySongs/USER_EMAIL
-        (accepts a array of JSON Objects) ex:
-            [
-                {
-                    "spotifySongName": "The Middle",
-                    "spotifySongArtist": "Jimmy Eat World"
-                },
-                {
-                    "spotifySongName": "Ohio Is for Lovers",
-                    "spotifySongArtist": "Hawthorne Heights"
-                }
-            ]
-
- 
-    //Delete all Spotify Songs for a User
-        DELETE
-        http://localhost:3000/spotifySongs/deleteSpotifySongs/USER_EMAIL
-
-    //Get Spotify Songs for a User
-
-        GET
-        http://localhost:3000/spotifySongs/getSpotifySongs/USER_EMAIL
-        (returns a arry of JSON object) ex
-            [
-                {
-                    "spotifySongName": "Ohio Is for Lovers",
-                    "spotifySongArtist": "Hawthorne Heights"
-                },
-                {
-                    "spotifySongName": "The Middle",
-                    "spotifySongArtist": "Jimmy Eat World"
-                }
-            ]
-
-
-### END POINTS TO MANIPULATE USERS APPLE SONGS DATA
-    //Add Apple Music Song(s) for a User
-        @POST
-        http://localhost:3000/appleMusicSongs/addAppleSongs/USER_EMAIL
-        (accepts array of JSON objects) ex:
-            [
-                {
-                    "appleMusicSongName": "Ohio Is for Lovers",
-                    "appleMusicSongArtist": "Hawthorne Heights"
-                },
-                {
-                    "appleMusicSongName": "The Middle",
-                    "appleMusicSongArtist": "Jimmy Eat World"
-                }
-            ]
-    //Delete Apple Music Song(s) for a User
-        @DELETE
-        http://localhost:3000/appleMusicSongs/deleteAppleSongs/USER_EMAIL
-
-    //Get Apple Music Song(s) for a User
-        @Get
-        http://localhost:3000/appleMusicSongs/getAppleSongs/USER_EMAIL
-        (Returns a array of JSON objects) ex:
-             [
-                {
-                    "appleMusicSongName": "Ohio Is for Lovers",
-                    "appleMusicSongArtist": "Hawthorne Heights"
-                },
-                {
-                    "appleMusicSongName": "The Middle",
-                    "appleMusicSongArtist": "Jimmy Eat World"
-                }
-            ]
-
-
-
-
-
-
-
-
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Users Table
+  ```
+  CREATE TABLE
+  `users` (
+    `email` varchar(255) DEFAULT NULL,
+    `spotifyId` varchar(255) DEFAULT NULL
+  ) 
+  ```

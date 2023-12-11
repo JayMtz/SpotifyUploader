@@ -34,8 +34,6 @@ export class UsersController {
     const authToken = spotifyAuthToken.token
     const spotifyId = await this.SongsService.getSpotifyId(email)
     console.log(`Spotify Id: ${spotifyId}`)
-    //const spotifyId = await this.spotifySongsService.getSpotifyId(email)
-    //console.log(`SpotifyId: ${spotifyId}`)
     const songs = await this.SongsService.getSongs(spotifyId)
     const playlistId = await this.spotifyWebApi.getUserPlaylistId(authToken, spotifyId)
     console.log(`Spotify Playlist Id: ${playlistId}`)

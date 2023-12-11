@@ -1,13 +1,23 @@
+require('dotenv').config();
+import { env } from 'node:process';
 import { Injectable } from '@nestjs/common';
 import { createPool } from 'mysql2/promise';
+
+
+const DATABASE_PASSWORD = env.DATABASE_PASSWORD
+const DATABASE_USER = env.DATABASE_USER
+const DATABASE_HOST = env.DATABASE_HOST
+const DATABASE_NAME = env.DATABASE_NAME
+
+
 
 @Injectable()
 export class SongsService {
   private pool = createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1194',
-    database: 'SpotifyUploader',
+    host: DATABASE_HOST,
+    user: DATABASE_USER,
+    password: DATABASE_PASSWORD,
+    database: DATABASE_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -24,6 +34,8 @@ export class SongsService {
 
 
   async addSongs(spotifyId, songs: { SongName: string; SongArtist: string }[]): Promise<any> {
+
+  //console.log(password)
     const connect = await this.pool.getConnection();
     const results = [];
     for (const song of songs) {

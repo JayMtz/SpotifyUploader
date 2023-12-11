@@ -7,15 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SongsService = void 0;
+require('dotenv').config();
+const node_process_1 = require("node:process");
 const common_1 = require("@nestjs/common");
 const promise_1 = require("mysql2/promise");
+const DATABASE_PASSWORD = node_process_1.env.DATABASE_PASSWORD;
+const DATABASE_USER = node_process_1.env.DATABASE_USER;
+const DATABASE_HOST = node_process_1.env.DATABASE_HOST;
+const DATABASE_NAME = node_process_1.env.DATABASE_NAME;
 let SongsService = class SongsService {
     constructor() {
         this.pool = (0, promise_1.createPool)({
-            host: 'localhost',
-            user: 'root',
-            password: '1194',
-            database: 'SpotifyUploader',
+            host: DATABASE_HOST,
+            user: DATABASE_USER,
+            password: DATABASE_PASSWORD,
+            database: DATABASE_NAME,
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,

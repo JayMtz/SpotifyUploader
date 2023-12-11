@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { error } from 'console';
-import { json, response } from 'express';
 import fetch from 'node-fetch';
 
 @Injectable()

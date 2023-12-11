@@ -25,11 +25,13 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-The intended use of this program is to take a list of songs and upload them onto a Users Spotify account.
+The intended use of this of this program is to be used as a backend service that takes in and stores a list of songs to be uploaded onto a new  Spotify playlist
+
 - How it performs this
-  - Takes in a list of JSON objects that is a list of songs to be uploaded and stores them in a SQL database
-  - creates a new User Spotify playlist
-  - takes the uploaded list of songs and uploads them to the newly created playlist
+  - Takes in a list of JSON objects that is a list of songs to be added to a SQL table
+  - Uses the Spotify API to gain authorization to users Spotify account to create a new playlist and upload to it
+  - takes the list of songs from the SQL table and uploads them onto a users newly created Spotify playlist
+  - *In order to not allow end user access to delete and retrieve database info, database management such as gets & deletes must be done outside of this program*
 
 ### The following endpoints to perform User actions
    - Create a new user

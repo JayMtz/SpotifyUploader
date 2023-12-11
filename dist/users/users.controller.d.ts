@@ -10,6 +10,4 @@ export declare class UsersController {
     createSpotifyPlaylist(spotifyAuthToken: any, email: string): Promise<any>;
     uploadSongsToSpotify(spotifyAuthToken: any, email: string): Promise<any>;
     addSpotifyIdtoUser(spotifyAuthToken: any, email: string): Promise<any>;
-    getAllUsers(): Promise<any>;
-    deleteAllUsers(email: string): Promise<any>;
 }

@@ -48,12 +48,6 @@ let UsersController = class UsersController {
         const spotifyId = await this.spotifyWebApi.getSpotifyId(authToken);
         return this.userService.addSpotifyIdToUser(spotifyId, email);
     }
-    getAllUsers() {
-        return this.userService.returnAllUsers();
-    }
-    deleteAllUsers(email) {
-        return this.userService.deleteUser(email);
-    }
 };
 __decorate([
     (0, common_1.Post)('createuser/:email'),
@@ -86,19 +80,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "addSpotifyIdtoUser", null);
-__decorate([
-    (0, common_1.Get)('returnAllUsers'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getAllUsers", null);
-__decorate([
-    (0, common_1.Delete)('/:email'),
-    __param(0, (0, common_1.Param)('email')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "deleteAllUsers", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService,

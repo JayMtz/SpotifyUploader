@@ -35,27 +35,6 @@ let UsersService = class UsersService {
         connect.release();
         return [result];
     }
-    async addAppleMusicIdToUser(appleMusicId, id) {
-        const connect = await this.pool.getConnection();
-        const query = 'UPDATE users SET AppleMusicId = ? WHERE EMAIL = ?';
-        const [result] = await connect.query(query, [appleMusicId, id]);
-        connect.release();
-        return result;
-    }
-    async returnAllUsers() {
-        const connect = await this.pool.getConnection();
-        const query = 'SELECT * FROM users';
-        const [result] = await connect.query(query);
-        connect.release();
-        return result;
-    }
-    async deleteUser(id) {
-        const connect = await this.pool.getConnection();
-        const query = 'DELETE FROM users WHERE email = ?';
-        const [result] = await connect.query(query, [id]);
-        connect.release;
-        return result;
-    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)()

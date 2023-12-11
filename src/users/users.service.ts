@@ -32,30 +32,10 @@ export class UsersService {
     return [result];
   }
   
+
+
   
-  async addAppleMusicIdToUser(appleMusicId, id): Promise<any> {
-    const connect = await this.pool.getConnection();
-    const query = 'UPDATE users SET AppleMusicId = ? WHERE EMAIL = ?';
-    const [result] = await connect.query(query, [appleMusicId, id]);
-    connect.release();
-    return result;
-  }
-
-  async returnAllUsers(): Promise <any>{
-    const connect = await this.pool.getConnection();
-    const query = 'SELECT * FROM users';
-    const [result] = await connect.query(query);
-    connect.release();
-    return result;
-
-  }
-  async deleteUser(id): Promise<any>{
-    const connect = await this.pool.getConnection();
-    const query = 'DELETE FROM users WHERE email = ?';
-    const [result] = await connect.query(query, [id]);
-    connect.release;
-    return result;
-  }
+  
 }
 
 

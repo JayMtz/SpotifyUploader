@@ -58,13 +58,4 @@ export class UsersController {
     }
 
     
-    @Get('returnAllUsers')
-    getAllUsers(){
-        return this.userService.returnAllUsers();
-    }
-    @Delete('/:email')
-    deleteAllUsers(@Param('email') email: string){
-        return this.userService.deleteUser(email);
-    }
-    
 }

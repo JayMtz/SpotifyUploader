@@ -28,7 +28,7 @@
 The intended use of this program is to take a list of songs and upload them onto a Users Spotify account.
 - How it performs this
   - Takes in a list of JSON objects that is a list of songs to be uploaded and stores them in a SQL database
-  - creates a custome User Spotify playlist
+  - creates a new User Spotify playlist
   - takes the uploaded list of songs and uploads them to the newly created playlist
 
 ### The following endpoints to perform User actions

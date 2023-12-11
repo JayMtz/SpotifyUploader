@@ -31,7 +31,7 @@ The intended use of this of this program is to be used as a backend service that
   - Takes in a list of JSON objects that is a list of songs to be added to a SQL table
   - Uses the Spotify Web API to gain authorization to a users Spotify account to create a new playlist and upload to it
   - Takes the list of songs from a SQL table and uploads them onto a users newly created Spotify playlist
-  - *In order to not allow end user access to delete and retrieve database info, database management such as gets & deletes must be done outside of this program*
+  - *In order to not allow end user access to delete and retrieve database info, database management such as gets & deletes have not been included as functions and must be done outside of this program*
  
   ** You will also need to add a .env file in your root directory to hide your database info ** 
 

@@ -9,7 +9,7 @@ const DATABASE_HOST = env.DATABASE_HOST
 const DATABASE_NAME = env.DATABASE_NAME
 
 @Injectable()
-export class UsersService {
+export class UsersService { 
   private pool = createPool({
     host: DATABASE_HOST,
     user: DATABASE_USER,

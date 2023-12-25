@@ -39,7 +39,7 @@ The intended use of this of this program is to be used as a backend service that
    - Create a new user
      > @POST
      ```
-        http://localhost:3000/users/createuser/USER_EMAIL
+     http://localhost:3000/users/createuser/USER_EMAIL
      ```
 
 

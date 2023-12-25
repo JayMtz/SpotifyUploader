@@ -1,15 +1,15 @@
 require('dotenv').config();
 import { env } from 'node:process';
 import { Injectable } from '@nestjs/common';
-import {createPool } from 'mysql2/promise';
+import { createPool } from 'mysql2/promise';
 
-const DATABASE_PASSWORD = env.DATABASE_PASSWORD
-const DATABASE_USER = env.DATABASE_USER
-const DATABASE_HOST = env.DATABASE_HOST
-const DATABASE_NAME = env.DATABASE_NAME
+const DATABASE_PASSWORD = env.DATABASE_PASSWORD;
+const DATABASE_USER = env.DATABASE_USER;
+const DATABASE_HOST = env.DATABASE_HOST;
+const DATABASE_NAME = env.DATABASE_NAME;
 
 @Injectable()
-export class UsersService { 
+export class UsersService {
   private pool = createPool({
     host: DATABASE_HOST,
     user: DATABASE_USER,
@@ -22,13 +22,25 @@ export class UsersService {
   });
 
   async createUser(id): Promise<any> {
-    const connection = await this.pool.getConnection();
-    const [result] = await connection.query(
-      `INSERT INTO users (email, spotifyId) VALUES (?, NULL)`,
-      [id],
-    );
-    connection.release();
-    return { message: "created user from User service with the username of " + id };
+    try {
+      const connection = await this.pool.getConnection();
+      const [result] = await connection.query(
+        `INSERT INTO users (email, spotifyId) VALUES (?, NULL)`,
+        [id],
+      );
+      connection.release();
+      console.log(`New User Created: ${id}`);
+      return {
+        message: 'User created successfully',
+        user: {
+          user: id,
+          spotifyId: null,
+        },
+      };
+    } catch (error) {
+      console.log(`failed to create new user: ${id} Error: ${error.message}`)
+      return error.message;
+    }
   }
 
   async addSpotifyIdToUser(spotifyId, email): Promise<any> {
@@ -38,11 +50,4 @@ export class UsersService {
     connect.release(); // Release the database connection
     return [result];
   }
-  
-
-
-  
-  
 }
-
-

@@ -29,10 +29,23 @@ let UsersService = class UsersService {
         });
     }
     async createUser(id) {
-        const connection = await this.pool.getConnection();
-        const [result] = await connection.query(`INSERT INTO users (email, spotifyId) VALUES (?, NULL)`, [id]);
-        connection.release();
-        return { message: "created user from User service with the username of " + id };
+        try {
+            const connection = await this.pool.getConnection();
+            const [result] = await connection.query(`INSERT INTO users (email, spotifyId) VALUES (?, NULL)`, [id]);
+            connection.release();
+            console.log(`New User Created: ${id}`);
+            return {
+                message: 'User created successfully',
+                user: {
+                    user: id,
+                    spotifyId: null,
+                },
+            };
+        }
+        catch (error) {
+            console.log(`failed to create new user: ${id} Error: ${error.message}`);
+            return error.message;
+        }
     }
     async addSpotifyIdToUser(spotifyId, email) {
         const connect = await this.pool.getConnection();

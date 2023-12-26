@@ -5,11 +5,12 @@ import { SongsService } from './songs.service';
 export class SongsController {
     constructor(private readonly songsService: SongsService) {}
 
-    @Post('addSongs/:id')
-    async addSongData( @Param('id') id: string, @Body() songs: any[]): Promise <any>{
-        const spotifyId = await this.songsService.getSpotifyId(id);
-        return this.songsService.addSongs(spotifyId, songs);
+    @Post('addSongs/:email')
+    async addSongData( @Param('email') email: string, @Body() songs: any[]): Promise <any>{
+        const spotifyId = await this.songsService.getSpotifyId(email);
+        return this.songsService.addSongs(email, spotifyId, songs);
     }
+
 
     @Delete('deleteSongs/:id')
     async deleteSongs(@Param('id') id: string): Promise <any>{

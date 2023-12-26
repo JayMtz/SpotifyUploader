@@ -19,9 +19,9 @@ let SongsController = class SongsController {
     constructor(songsService) {
         this.songsService = songsService;
     }
-    async addSongData(id, songs) {
-        const spotifyId = await this.songsService.getSpotifyId(id);
-        return this.songsService.addSongs(spotifyId, songs);
+    async addSongData(email, songs) {
+        const spotifyId = await this.songsService.getSpotifyId(email);
+        return this.songsService.addSongs(email, spotifyId, songs);
     }
     async deleteSongs(id) {
         const spotifyId = await this.songsService.getSpotifyId(id);
@@ -33,8 +33,8 @@ let SongsController = class SongsController {
     }
 };
 __decorate([
-    (0, common_1.Post)('addSongs/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Post)('addSongs/:email'),
+    __param(0, (0, common_1.Param)('email')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Array]),

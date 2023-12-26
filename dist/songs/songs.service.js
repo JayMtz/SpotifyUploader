@@ -35,25 +35,31 @@ let SongsService = class SongsService {
         connect.release();
         return result[0].spotifyId;
     }
-    async addSongs(spotifyId, songs) {
+    async addSongs(email, spotifyId, songs) {
         const connect = await this.pool.getConnection();
         const results = [];
         for (const song of songs) {
             const { SongName, SongArtist } = song;
             try {
                 const query = 'INSERT INTO UserSongs (SpotifyId, SongName, SongArtist) VALUES (?, ?, ?)';
-                console.log(`...adding ${SongArtist} - ${SongName} to database..`);
-                console.log(spotifyId);
                 const [result] = await connect.query(query, [spotifyId, SongName, SongArtist]);
-                results.push(result);
+                console.log(`Adding ${SongArtist}-${SongName} to User: ${email}`);
+                results.push({
+                    user: email,
+                    SongArtist: SongArtist,
+                    SongName: SongName,
+                    Status: `Success`
+                });
             }
             catch (error) {
-                if (error.code === 'ER_DUP_ENTRY') {
-                    console.error('Duplicate entry:', song);
-                }
-                else {
-                    console.error('Error:', error.message);
-                }
+                console.log(`Failed to add ${SongArtist}-${SongName} to User ${email}`);
+                results.push({
+                    ErrorMessage: error.message,
+                    RejSongArtist: SongArtist,
+                    RejSongName: SongName,
+                    ErrorNum: error.errno,
+                    Status: `Failed`
+                });
             }
         }
         connect.release();

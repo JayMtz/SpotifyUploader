@@ -21,33 +21,46 @@ export class UsersService {
     port: 3306, // Add port number for MySQL
   });
 
-  async createUser(id): Promise<any> {
+  async createUser(email): Promise<any> {
     try {
       const connection = await this.pool.getConnection();
       const [result] = await connection.query(
         `INSERT INTO users (email, spotifyId) VALUES (?, NULL)`,
-        [id],
+        [email],
       );
       connection.release();
-      console.log(`New User Created: ${id}`);
+      console.log(`New User Created: ${email}`);
       return {
         message: 'User created successfully',
         user: {
-          user: id,
+          user: email,
           spotifyId: null,
         },
       };
     } catch (error) {
-      console.log(`failed to create new user: ${id} Error: ${error.message}`)
+      console.log(`failed to create new user: ${email} Error: ${error.message}`)
       return error.message;
     }
   }
 
   async addSpotifyIdToUser(spotifyId, email): Promise<any> {
+    try{
     const connect = await this.pool.getConnection();
     const query = 'UPDATE users SET spotifyId = ? WHERE email = ?';
     const [result] = await connect.query(query, [spotifyId, email]);
     connect.release(); // Release the database connection
-    return [result];
+    console.log(`Added Spotify ID ${spotifyId} to User ${email}`)
+    return {
+      message: `Added Spotify ID ${spotifyId} to User: ${email}`,
+      user: {
+        user: email,
+        spotifyId: spotifyId,
+      },
+    };
+  }
+  catch (error){
+    console.log(`${error.message}, Failed to add Spotify ID to User ${email}`)
+    return error.message
+  }
   }
 }

@@ -21,9 +21,7 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 throw new Error('Error reaching Spotify Web API');
             }
             const data = await response.json();
-            console.log('Response from Spotify:');
-            console.log(data);
-            console.log(`Your Spotify id is ${data.id}`);
+            console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `);
             return data.id;
         }
         catch (error) {

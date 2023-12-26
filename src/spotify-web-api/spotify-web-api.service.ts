@@ -17,9 +17,10 @@ export class SpotifyWebApiService {
             }
 
             const data = await response.json();
-            console.log('Response from Spotify:');
-            console.log(data);
-            console.log(`Your Spotify id is ${data.id}`);
+            //console.log('Response from Spotify:');
+            //console.log(data);
+            //console.log(`Your Spotify id is ${data.id}`);
+            console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `)
             return data.id;
         } catch (error) {
             throw new Error('Error fetching data from Spotify API (most likely bad auth token)');
@@ -147,9 +148,6 @@ export class SpotifyWebApiService {
         const data = await response.json();
         return data;
     }
-    
-
-    
 
    
 }

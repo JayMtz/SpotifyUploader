@@ -1,5 +1,5 @@
 export declare class UsersService {
     private pool;
-    createUser(id: any): Promise<any>;
+    createUser(email: any): Promise<any>;
     addSpotifyIdToUser(spotifyId: any, email: any): Promise<any>;
 }

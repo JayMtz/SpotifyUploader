@@ -31,8 +31,6 @@ let SpotifyWebApiService = class SpotifyWebApiService {
     async createPlaylist(authToken, spotifyId) {
         const playlistName = 'Your Custom Playlist';
         const playlistDescription = 'Your Custom Description';
-        console.log(authToken);
-        console.log(spotifyId);
         try {
             const response = await (0, node_fetch_1.default)(`https://api.spotify.com/v1/users/${spotifyId}/playlists`, {
                 method: 'POST',
@@ -47,15 +45,14 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 }),
             });
             if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to create playlist. Status: ${response.status}, Message: ${errorText}`);
+                const errorTxt = await response.json();
+                throw new Error(`${errorTxt.error.message}`);
             }
-            const playlistData = await response.json();
-            return playlistData;
+            return response.json();
         }
         catch (error) {
             console.log(error);
-            throw error;
+            return { message: `ERROR: ${error.message}` };
         }
     }
     async getSongUris(authToken, songs) {
@@ -69,7 +66,7 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 const response = await (0, node_fetch_1.default)(`https://api.spotify.com/v1/search?q=${searchQuery}&type=track`, {
                     method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${authToken}`
+                        Authorization: `Bearer ${authToken}`,
                     },
                 });
                 if (response.ok) {
@@ -117,7 +114,7 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 Authorization: `Bearer ${authToken}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ uris: songUris })
+            body: JSON.stringify({ uris: songUris }),
         });
         const data = await response.json();
         return data;

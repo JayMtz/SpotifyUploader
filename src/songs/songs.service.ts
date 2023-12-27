@@ -18,7 +18,7 @@ export class SongsService {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    port: 3306, // Add port number for MySQL
+    port: 3306, 
   });
 
   async getSpotifyId(email) {

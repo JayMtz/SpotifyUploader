@@ -3,5 +3,6 @@ export declare class SpotifyWebApiService {
     createPlaylist(authToken: any, spotifyId: any): Promise<any>;
     getSongUris(authToken: any, songs: any): Promise<any[]>;
     getUserPlaylistId(authToken: any, spotifyId: any): Promise<any>;
+    0: any;
     uploadSongsToPlaylist(authToken: any, playlistId: any, songUris: any): Promise<any>;
 }

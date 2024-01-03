@@ -2,6 +2,8 @@ require('dotenv').config();
 import { env } from 'node:process';
 import { Injectable } from '@nestjs/common';
 import { createPool } from 'mysql2/promise';
+import { response } from 'express';
+import { connect } from 'node:http2';
 
 const DATABASE_PASSWORD = env.DATABASE_PASSWORD;
 const DATABASE_USER = env.DATABASE_USER;
@@ -22,11 +24,17 @@ export class SongsService {
   });
 
   async getSpotifyId(email) {
+    try{
     const connect = await this.pool.getConnection();
     const query = 'SELECT spotifyId FROM users WHERE email = ?';
     const [result] = await connect.query(query, email);
     connect.release();
     return result[0].spotifyId;
+    }
+    
+    catch(error){
+      return error;
+    }
   }
 
   async addSongs(email, spotifyId, songs: { SongName: string; SongArtist: string }[]): Promise<any> {

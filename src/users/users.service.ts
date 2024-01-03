@@ -55,12 +55,18 @@ export class UsersService {
       user: {
         user: email,
         spotifyId: spotifyId,
+        status: `ok`
       },
     };
   }
   catch (error){
     console.log(`${error.message}, Failed to add Spotify ID to User ${email}`)
-    return error.message
+    return {
+      message: `${error.message}, Failed to add Spotify ID to User ${email}`,
+      status: 'failed',
+      errnum: error.errno
+
+    }
   }
   }
 }

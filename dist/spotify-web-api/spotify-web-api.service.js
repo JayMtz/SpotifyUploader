@@ -18,14 +18,15 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 },
             });
             if (!response.ok) {
-                throw new Error('Error reaching Spotify Web API');
+                const errorTxt = await response.json();
+                throw new Error(`${errorTxt.error.message}`);
             }
             const data = await response.json();
             console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `);
             return data.id;
         }
         catch (error) {
-            throw new Error('Error fetching data from Spotify API (most likely bad auth token)');
+            return error.message;
         }
     }
     async createPlaylist(authToken, spotifyId) {
@@ -52,7 +53,7 @@ let SpotifyWebApiService = class SpotifyWebApiService {
         }
         catch (error) {
             console.log(error);
-            return { message: `ERROR: ${error.message}` };
+            return { message: `ERROR: ${error}` };
         }
     }
     async getSongUris(authToken, songs) {

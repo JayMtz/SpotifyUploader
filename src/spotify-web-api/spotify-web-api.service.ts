@@ -13,14 +13,15 @@ export class SpotifyWebApiService {
             });
 
             if (!response.ok) {
-                throw new Error('Error reaching Spotify Web API');
+                const errorTxt = await response.json();
+                throw new Error(`${errorTxt.error.message}`);
             }
 
             const data = await response.json();
             console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `);
             return data.id;
         } catch (error) {
-            throw new Error('Error fetching data from Spotify API (most likely bad auth token)');
+          return error.message;
         }
     }
 
@@ -50,7 +51,8 @@ export class SpotifyWebApiService {
             return response.json();
         } catch (error) {
             console.log(error);
-            return { message: `ERROR: ${error.message}` };
+            return { message: `ERROR: ${error}` };
+           
         }
     }
 
@@ -107,7 +109,7 @@ export class SpotifyWebApiService {
         const playlistName = 'Your Custom Playlist';
         const playlistId = data.items.find(item => item.name === playlistName);
         return playlistId.id;
-    }
+    }0
 
     async uploadSongsToPlaylist(authToken, playlistId, songUris) {
         console.log(`Now uploading songs..`);

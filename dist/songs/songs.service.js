@@ -29,11 +29,16 @@ let SongsService = class SongsService {
         });
     }
     async getSpotifyId(email) {
-        const connect = await this.pool.getConnection();
-        const query = 'SELECT spotifyId FROM users WHERE email = ?';
-        const [result] = await connect.query(query, email);
-        connect.release();
-        return result[0].spotifyId;
+        try {
+            const connect = await this.pool.getConnection();
+            const query = 'SELECT spotifyId FROM users WHERE email = ?';
+            const [result] = await connect.query(query, email);
+            connect.release();
+            return result[0].spotifyId;
+        }
+        catch (error) {
+            return error;
+        }
     }
     async addSongs(email, spotifyId, songs) {
         const connect = await this.pool.getConnection();

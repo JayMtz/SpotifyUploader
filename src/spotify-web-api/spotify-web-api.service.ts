@@ -22,7 +22,7 @@ export class SpotifyWebApiService {
             return {status: true,
                     spotifyId: data.id};
         } catch (error) {
-            return {error: error.message,
+            return {message: error.message,
                     status: false}
         }
     }

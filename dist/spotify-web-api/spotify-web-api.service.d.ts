@@ -2,9 +2,9 @@ export declare class SpotifyWebApiService {
     getSpotifyId(authToken: any): Promise<{
         status: boolean;
         spotifyId: any;
-        error?: undefined;
+        message?: undefined;
     } | {
-        error: any;
+        message: any;
         status: boolean;
         spotifyId?: undefined;
     }>;

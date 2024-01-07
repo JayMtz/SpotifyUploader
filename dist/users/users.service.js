@@ -36,6 +36,7 @@ let UsersService = class UsersService {
             console.log(`New User Created: ${email}`);
             return {
                 message: 'User created successfully',
+                status: true,
                 user: {
                     user: email,
                     spotifyId: null,
@@ -43,15 +44,19 @@ let UsersService = class UsersService {
             };
         }
         catch (error) {
-            console.log(`failed to create new user: ${email} Error: ${error.message}`);
-            return error.message;
+            console.log(`Failed to create new user: ${email} Error: ${error.message}`);
+            return {
+                message: `${error.message}, failed to create user ${email}`,
+                status: false,
+                sqlErrNum: error.errno,
+            };
         }
     }
     async addSpotifyIdToUser(spotifyId, email) {
         try {
             if (!spotifyId.status) {
-                console.log(`failed to add a spotify ID to ${email}: ${spotifyId.error}`);
-                return { Error: spotifyId.error,
+                console.log(`failed to add a spotify ID to ${email}: ${spotifyId.message}`);
+                return { message: spotifyId.message,
                     status: false };
             }
             const connect = await this.pool.getConnection();
@@ -73,7 +78,7 @@ let UsersService = class UsersService {
             return {
                 message: `${error.message}, Failed to add Spotify ID to User ${email}`,
                 status: false,
-                errnum: error.errno
+                sqlErrNum: error.errno
             };
         }
     }

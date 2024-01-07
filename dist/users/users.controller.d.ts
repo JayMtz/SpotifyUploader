@@ -7,7 +7,21 @@ export declare class UsersController {
     private readonly SongsService;
     constructor(userService: UsersService, spotifyWebApi: SpotifyWebApiService, SongsService: SongsService);
     createUser(email: string): Promise<any>;
-    createSpotifyPlaylist(spotifyAuthToken: any, email: string): Promise<any>;
+    createSpotifyPlaylist(spotifyAuthToken: any, email: string): Promise<{
+        message: string;
+        status: string;
+        spotifyPlaylistUri: any;
+        playlistName: any;
+        url: any;
+        spotifyPlaylistId: any;
+    } | {
+        message: string;
+        status: string;
+        spotifyPlaylistUri?: undefined;
+        playlistName?: undefined;
+        url?: undefined;
+        spotifyPlaylistId?: undefined;
+    }>;
     uploadSongsToSpotify(spotifyAuthToken: any, email: string): Promise<any>;
     addSpotifyIdtoUser(spotifyAuthToken: any, email: string): Promise<any>;
 }

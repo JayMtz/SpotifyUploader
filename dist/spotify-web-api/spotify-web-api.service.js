@@ -49,11 +49,22 @@ let SpotifyWebApiService = class SpotifyWebApiService {
                 const errorTxt = await response.json();
                 throw new Error(`${errorTxt.error.message}`);
             }
-            return response.json();
+            let data = await response.json();
+            console.log(`Spotify playlist created for spotifyId: ${spotifyId}`);
+            return { message: `Playlist Created`,
+                status: 'ok',
+                spotifyPlaylistUri: data.uri,
+                playlistName: data.name,
+                url: data.external_urls.spotify,
+                spotifyPlaylistId: data.id,
+            };
         }
         catch (error) {
-            console.log(error);
-            return { message: `ERROR: ${error}` };
+            console.log(`Failed to create SpotifyPlaylist for ${spotifyId}: ${error}`);
+            return {
+                message: `ERROR: ${error}`,
+                status: 'failed'
+            };
         }
     }
     async getSongUris(authToken, songs) {

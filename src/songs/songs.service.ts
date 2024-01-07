@@ -60,7 +60,7 @@ export class SongsService {
           ErrorMessage: error.message,
           RejSongArtist: SongArtist,
           RejSongName: SongName,
-          ErrorNum: error.errno,
+          SQLErrorNum: error.errno,
           Status: `Failed`
         });
       }

@@ -46,7 +46,6 @@ let UsersController = class UsersController {
     async addSpotifyIdtoUser(spotifyAuthToken, email) {
         const authToken = spotifyAuthToken.token;
         const spotifyId = await this.spotifyWebApi.getSpotifyId(authToken);
-        console.log(spotifyId);
         return this.userService.addSpotifyIdToUser(spotifyId, email);
     }
 };

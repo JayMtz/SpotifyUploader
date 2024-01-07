@@ -21,7 +21,7 @@ export class SpotifyWebApiService {
             console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `);
             return data.id;
         } catch (error) {
-          return error.message;
+            return error.message;
         }
     }
 
@@ -41,18 +41,29 @@ export class SpotifyWebApiService {
                     description: playlistDescription,
                     public: true,
                 }),
+                
             });
-
             if (!response.ok) {
                 const errorTxt = await response.json();
                 throw new Error(`${errorTxt.error.message}`);
             }
 
-            return response.json();
+             let data = await response.json();
+            console.log(`Spotify playlist created for spotifyId: ${spotifyId}`)
+            
+            return {message: `Playlist Created`,
+                    status: 'ok',
+                    spotifyPlaylistUri: data.uri,
+                    playlistName: data.name,
+                    url: data.external_urls.spotify,
+                    spotifyPlaylistId: data.id,
+                    }
         } catch (error) {
-            console.log(error);
-            return { message: `ERROR: ${error}` };
-           
+            console.log(`Failed to create SpotifyPlaylist for ${spotifyId}: ${error}`);
+            return {
+                message: `ERROR: ${error}`,
+                status: 'failed'
+            };
         }
     }
 
@@ -109,7 +120,7 @@ export class SpotifyWebApiService {
         const playlistName = 'Your Custom Playlist';
         const playlistId = data.items.find(item => item.name === playlistName);
         return playlistId.id;
-    }0
+    }
 
     async uploadSongsToPlaylist(authToken, playlistId, songUris) {
         console.log(`Now uploading songs..`);

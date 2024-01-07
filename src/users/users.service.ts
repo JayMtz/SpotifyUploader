@@ -45,17 +45,22 @@ export class UsersService {
 
   async addSpotifyIdToUser(spotifyId, email): Promise<any> {
     try{
+    if(!spotifyId.status){
+      console.log(`failed to add a spotify ID to ${email}: ${spotifyId.error}`)
+      return {Error: spotifyId.error,
+              status: false}
+    }
     const connect = await this.pool.getConnection();
     const query = 'UPDATE users SET spotifyId = ? WHERE email = ?';
-    const [result] = await connect.query(query, [spotifyId, email]);
+    const [result] = await connect.query(query, [spotifyId.spotifyId, email]);
     connect.release(); // Release the database connection
-    console.log(`Added Spotify ID ${spotifyId} to User ${email}`)
+    console.log(`Added Spotify ID ${spotifyId.spotifyId} to User ${email}`)
     return {
-      message: `Added Spotify ID ${spotifyId} to User: ${email}`,
+      message: `Added Spotify ID ${spotifyId.spotifyId} to User: ${email}`,
+      status: true,
       user: {
         user: email,
-        spotifyId: spotifyId,
-        status: `ok`
+        spotifyId: spotifyId.spotifyId,
       },
     };
   }
@@ -63,7 +68,7 @@ export class UsersService {
     console.log(`${error.message}, Failed to add Spotify ID to User ${email}`)
     return {
       message: `${error.message}, Failed to add Spotify ID to User ${email}`,
-      status: 'failed',
+      status: false,
       errnum: error.errno
 
     }

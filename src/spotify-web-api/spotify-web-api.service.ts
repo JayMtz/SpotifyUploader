@@ -13,15 +13,17 @@ export class SpotifyWebApiService {
             });
 
             if (!response.ok) {
-                const errorTxt = await response.json();
-                throw new Error(`${errorTxt.error.message}`);
+                const data = await response.json();
+                throw new Error(`${data.error.message}`);
+                
             }
-
             const data = await response.json();
             console.log(`Connection to Spotify API made to obtain Spotify ID ${data.id} `);
-            return data.id;
+            return {status: true,
+                    spotifyId: data.id};
         } catch (error) {
-            return error.message;
+            return {error: error.message,
+                    status: false}
         }
     }
 
@@ -41,28 +43,29 @@ export class SpotifyWebApiService {
                     description: playlistDescription,
                     public: true,
                 }),
-                
             });
+
             if (!response.ok) {
                 const errorTxt = await response.json();
                 throw new Error(`${errorTxt.error.message}`);
             }
 
-             let data = await response.json();
-            console.log(`Spotify playlist created for spotifyId: ${spotifyId}`)
+            let data = await response.json();
+            console.log(`Spotify playlist created for spotifyId: ${spotifyId}`);
             
-            return {message: `Playlist Created`,
-                    status: 'ok',
-                    spotifyPlaylistUri: data.uri,
-                    playlistName: data.name,
-                    url: data.external_urls.spotify,
-                    spotifyPlaylistId: data.id,
-                    }
+            return {
+                message: `Playlist Created`,
+                status: true,
+                spotifyPlaylistUri: data.uri,
+                playlistName: data.name,
+                url: data.external_urls.spotify,
+                spotifyPlaylistId: data.id,
+            };
         } catch (error) {
             console.log(`Failed to create SpotifyPlaylist for ${spotifyId}: ${error}`);
             return {
                 message: `ERROR: ${error}`,
-                status: 'failed'
+                status: false
             };
         }
     }

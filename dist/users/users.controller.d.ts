@@ -9,14 +9,14 @@ export declare class UsersController {
     createUser(email: string): Promise<any>;
     createSpotifyPlaylist(spotifyAuthToken: any, email: string): Promise<{
         message: string;
-        status: string;
+        status: boolean;
         spotifyPlaylistUri: any;
         playlistName: any;
         url: any;
         spotifyPlaylistId: any;
     } | {
         message: string;
-        status: string;
+        status: boolean;
         spotifyPlaylistUri?: undefined;
         playlistName?: undefined;
         url?: undefined;

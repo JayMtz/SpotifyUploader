@@ -1,15 +1,23 @@
 export declare class SpotifyWebApiService {
-    getSpotifyId(authToken: any): Promise<any>;
+    getSpotifyId(authToken: any): Promise<{
+        status: boolean;
+        spotifyId: any;
+        error?: undefined;
+    } | {
+        error: any;
+        status: boolean;
+        spotifyId?: undefined;
+    }>;
     createPlaylist(authToken: any, spotifyId: any): Promise<{
         message: string;
-        status: string;
+        status: boolean;
         spotifyPlaylistUri: any;
         playlistName: any;
         url: any;
         spotifyPlaylistId: any;
     } | {
         message: string;
-        status: string;
+        status: boolean;
         spotifyPlaylistUri?: undefined;
         playlistName?: undefined;
         url?: undefined;

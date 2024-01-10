@@ -45,7 +45,6 @@ export class UsersService {
       status: false,
       sqlErrNum: error.errno,
     };
-    // return error.message;
   }
 }
 
@@ -58,7 +57,7 @@ export class UsersService {
               status: false}
     }
     const connect = await this.pool.getConnection();
-    const query = 'UPDATE users SET spotifyId = ? WHERE email = ?';
+    const query = 'UPDATE users SET spotifyId = ? WHERE email = ?'
     const [result] = await connect.query(query, [spotifyId.spotifyId, email]);
     connect.release(); // Release the database connection
     console.log(`Added Spotify ID ${spotifyId.spotifyId} to User ${email}`)
@@ -82,3 +81,4 @@ export class UsersService {
   }
   }
 }
+// UPDATE users SET spotifyId = ? WHERE email = ? AND email IS NOT NULL AND email != '';

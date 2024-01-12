@@ -51,31 +51,26 @@ let SongsService = class SongsService {
                 console.log(`Adding ${SongArtist}-${SongName} to User: ${email}`);
                 results.push({
                     user: email,
-                    SongArtist: SongArtist,
-                    SongName: SongName,
-                    Status: `Success`
+                    spotifyId: spotifyId,
+                    songArtist: SongArtist,
+                    songName: SongName,
+                    status: true
                 });
             }
             catch (error) {
                 console.log(`Failed to add ${SongArtist}-${SongName} to User ${email}`);
                 results.push({
-                    ErrorMessage: error.message,
-                    RejSongArtist: SongArtist,
-                    RejSongName: SongName,
-                    SQLErrorNum: error.errno,
-                    Status: `Failed`
+                    error: error.message,
+                    user: email,
+                    spotifyId: spotifyId,
+                    songArtist: SongArtist,
+                    songName: SongName,
+                    status: false
                 });
             }
         }
         connect.release();
         return results;
-    }
-    async deleteSongs(spotifyId) {
-        const connect = await this.pool.getConnection();
-        const query = 'DELETE FROM appleMusicSongs WHERE appleMusicId = ?';
-        const [result] = await connect.query(query, spotifyId);
-        connect.release();
-        return result;
     }
     async getSongs(spotifyId) {
         const connect = await this.pool.getConnection();

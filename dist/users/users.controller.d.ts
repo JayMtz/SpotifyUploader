@@ -22,6 +22,6 @@ export declare class UsersController {
         url?: undefined;
         spotifyPlaylistId?: undefined;
     }>;
-    uploadSongsToSpotify(spotifyAuthToken: any, email: string): Promise<any>;
+    uploadSongsToSpotify(spotifyAuthToken: any, email: string): Promise<number>;
     addSpotifyIdtoUser(spotifyAuthToken: any, email: string): Promise<any>;
 }

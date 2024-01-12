@@ -25,5 +25,5 @@ export declare class SpotifyWebApiService {
     }>;
     getSongUris(authToken: any, songs: any): Promise<any[]>;
     getUserPlaylistId(authToken: any, spotifyId: any): Promise<any>;
-    uploadSongsToPlaylist(authToken: any, playlistId: any, songUris: any): Promise<any>;
+    uploadSongsToPlaylist(authToken: any, playlistId: any, songUris: any): Promise<number>;
 }

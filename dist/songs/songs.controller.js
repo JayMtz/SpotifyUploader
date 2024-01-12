@@ -23,10 +23,6 @@ let SongsController = class SongsController {
         const spotifyId = await this.songsService.getSpotifyId(email);
         return this.songsService.addSongs(email, spotifyId, songs);
     }
-    async deleteSongs(id) {
-        const spotifyId = await this.songsService.getSpotifyId(id);
-        return this.songsService.deleteSongs(spotifyId);
-    }
     async getAppleSongs(id) {
         const spotifyId = await this.songsService.getSpotifyId(id);
         return this.songsService.getSongs(spotifyId);
@@ -40,13 +36,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Array]),
     __metadata("design:returntype", Promise)
 ], SongsController.prototype, "addSongData", null);
-__decorate([
-    (0, common_1.Delete)('deleteSongs/:id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SongsController.prototype, "deleteSongs", null);
 __decorate([
     (0, common_1.Get)('getSongs/:id'),
     __param(0, (0, common_1.Param)('id')),

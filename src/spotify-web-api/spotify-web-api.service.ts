@@ -71,7 +71,6 @@ export class SpotifyWebApiService {
     }
 
     async getSongUris(authToken, songs) {
-        console.log(`Gathering Spotify Song Uris from Users Apple Music Songs`);
         const result = [];
         const batchSize = 5;
 
@@ -137,6 +136,6 @@ export class SpotifyWebApiService {
         });
 
         const data = await response.json();
-        return data;
+        return 6;
     }
 }

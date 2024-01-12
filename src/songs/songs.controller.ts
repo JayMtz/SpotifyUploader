@@ -12,11 +12,11 @@ export class SongsController {
     }
 
 
-    @Delete('deleteSongs/:id')
-    async deleteSongs(@Param('id') id: string): Promise <any>{
-        const spotifyId = await this.songsService.getSpotifyId(id)
-        return this.songsService.deleteSongs(spotifyId);
-    }
+    // @Delete('deleteSongs/:id')
+    // async deleteSongs(@Param('id') id: string): Promise <any>{
+    //     const spotifyId = await this.songsService.getSpotifyId(id)
+    //     return this.songsService.deleteSongs(spotifyId);
+    // }
 
     @Get('getSongs/:id')
     async getAppleSongs(@Param('id') id: string): Promise <any>{

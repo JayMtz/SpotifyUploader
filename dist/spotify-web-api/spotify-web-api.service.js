@@ -71,7 +71,6 @@ let SpotifyWebApiService = class SpotifyWebApiService {
         }
     }
     async getSongUris(authToken, songs) {
-        console.log(`Gathering Spotify Song Uris from Users Apple Music Songs`);
         const result = [];
         const batchSize = 5;
         for (let i = 0; i < songs.length; i += batchSize) {
@@ -132,7 +131,7 @@ let SpotifyWebApiService = class SpotifyWebApiService {
             body: JSON.stringify({ uris: songUris }),
         });
         const data = await response.json();
-        return data;
+        return 6;
     }
 };
 SpotifyWebApiService = __decorate([

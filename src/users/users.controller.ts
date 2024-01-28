@@ -30,18 +30,12 @@ export class UsersController {
    @Post(`:email/uploadSongsToSpotify`)
    //uploads songs to new spotify playlist for a user
     async uploadSongsToSpotify( @Body() spotifyAuthToken: any, @Param('email') email: string){
-    console.log(`Gather items needed to upload songs..`)
     const authToken = spotifyAuthToken.token
     const spotifyId = await this.SongsService.getSpotifyId(email)
-    console.log(`Spotify Id: ${spotifyId}`)
     const songs = await this.SongsService.getSongs(spotifyId)
     const playlistId = await this.spotifyWebApi.getUserPlaylistId(authToken, spotifyId)
-    console.log(`Spotify Playlist Id: ${playlistId}`)
-    const songUris = await this.spotifyWebApi.getSongUris(authToken, songs)
-    console.log(`items gathered`)
-    
-    
-   return await this.spotifyWebApi.uploadSongsToPlaylist(authToken, playlistId, songUris);
+    const songUris = await this.spotifyWebApi.getSongUris(email,authToken, songs, playlistId)
+   return await this.spotifyWebApi.uploadSongsToPlaylist(authToken, playlistId, songUris,spotifyId);
    
    }
 

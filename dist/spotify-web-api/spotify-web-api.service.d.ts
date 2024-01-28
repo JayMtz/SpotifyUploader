@@ -23,7 +23,33 @@ export declare class SpotifyWebApiService {
         url?: undefined;
         spotifyPlaylistId?: undefined;
     }>;
-    getSongUris(authToken: any, songs: any): Promise<any[]>;
-    getUserPlaylistId(authToken: any, spotifyId: any): Promise<any>;
-    uploadSongsToPlaylist(authToken: any, playlistId: any, songUris: any): Promise<number>;
+    getSongUris(email: any, authToken: any, songs: any, playlistId: any): Promise<{
+        error: any;
+        status: boolean;
+        result?: undefined;
+    } | {
+        result: any[];
+        status: boolean;
+        error?: undefined;
+    }>;
+    getUserPlaylistId(authToken: any, spotifyId: any): Promise<{
+        playlistId: any;
+        status: boolean;
+        error?: undefined;
+    } | {
+        error: any;
+        status: boolean;
+        playlistId?: undefined;
+    }>;
+    uploadSongsToPlaylist(authToken: any, playlistId: any, songUris: any, spotifyId: any): Promise<{
+        error: any;
+        status: boolean;
+        message?: undefined;
+        snapshot_id?: undefined;
+    } | {
+        message: string;
+        snapshot_id: any;
+        status: boolean;
+        error?: undefined;
+    }>;
 }

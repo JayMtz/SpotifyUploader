@@ -1,5 +1,6 @@
 export declare class SongsService {
     private pool;
+    private getTimestamp;
     getSpotifyId(email: any): Promise<any>;
     addSongs(email: any, spotifyId: any, songs: {
         SongName: string;

@@ -48,5 +48,5 @@ export class UsersController {
         return this.userService.addSpotifyIdToUser(spotifyId, email)
     }
 
-    
+ 
 }

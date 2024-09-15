@@ -2,6 +2,8 @@ require('dotenv').config();
 import { env } from 'node:process';
 import { Injectable } from '@nestjs/common';
 import { createPool } from 'mysql2/promise';
+import * as moment from 'moment-timezone';
+
 import { response } from 'express';
 import { connect } from 'node:http2';
 
@@ -23,6 +25,11 @@ export class SongsService {
     port: 3306, 
   });
 
+  private getTimestamp(): string {
+    return moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm:ss');
+  }
+
+
   async getSpotifyId(email) {
     try{
     const connect = await this.pool.getConnection();
@@ -40,14 +47,14 @@ export class SongsService {
   async addSongs(email, spotifyId, songs: { SongName: string; SongArtist: string }[]): Promise<any> {
     const connect = await this.pool.getConnection();
     const results = [];
-
+    let counter = 0
+    const timestamp = this.getTimestamp();
     for (const song of songs) {
       const { SongName, SongArtist } = song;
 
       try {
         const query = 'INSERT INTO UserSongs (SpotifyId, SongName, SongArtist) VALUES (?, ?, ?)';
         const [result] = await connect.query(query, [spotifyId, SongName, SongArtist]);
-        console.log(`Adding ${SongArtist}-${SongName} to User: ${email}`);
         results.push({
           user: email,
           spotifyId: spotifyId,
@@ -55,8 +62,8 @@ export class SongsService {
           songName: SongName,
           status: true
         });
+        counter++
       } catch (error) {
-        console.log(`Failed to add ${SongArtist}-${SongName} to User ${email}`)
         results.push({
           error: error.message,
           user: email,
@@ -67,18 +74,11 @@ export class SongsService {
         });
       }
     }
-
+    console.log(`[${timestamp}] Added ${counter}/${results.length} songs to User: ${email}`)
     connect.release();
     return results;
   }
 
-  // async deleteSongs(spotifyId) {
-  //   const connect = await this.pool.getConnection();
-  //   const query = 'DELETE FROM appleMusicSongs WHERE appleMusicId = ?';
-  //   const [result] = await connect.query(query, spotifyId);
-  //   connect.release();
-  //   return result;
-  // }
 
   async getSongs(spotifyId) {
     const connect = await this.pool.getConnection();

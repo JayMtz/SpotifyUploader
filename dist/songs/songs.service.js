@@ -11,6 +11,7 @@ require('dotenv').config();
 const node_process_1 = require("node:process");
 const common_1 = require("@nestjs/common");
 const promise_1 = require("mysql2/promise");
+const moment = require("moment-timezone");
 const DATABASE_PASSWORD = node_process_1.env.DATABASE_PASSWORD;
 const DATABASE_USER = node_process_1.env.DATABASE_USER;
 const DATABASE_HOST = node_process_1.env.DATABASE_HOST;
@@ -28,6 +29,9 @@ let SongsService = class SongsService {
             port: 3306,
         });
     }
+    getTimestamp() {
+        return moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm:ss');
+    }
     async getSpotifyId(email) {
         try {
             const connect = await this.pool.getConnection();
@@ -43,12 +47,13 @@ let SongsService = class SongsService {
     async addSongs(email, spotifyId, songs) {
         const connect = await this.pool.getConnection();
         const results = [];
+        let counter = 0;
+        const timestamp = this.getTimestamp();
         for (const song of songs) {
             const { SongName, SongArtist } = song;
             try {
                 const query = 'INSERT INTO UserSongs (SpotifyId, SongName, SongArtist) VALUES (?, ?, ?)';
                 const [result] = await connect.query(query, [spotifyId, SongName, SongArtist]);
-                console.log(`Adding ${SongArtist}-${SongName} to User: ${email}`);
                 results.push({
                     user: email,
                     spotifyId: spotifyId,
@@ -56,9 +61,9 @@ let SongsService = class SongsService {
                     songName: SongName,
                     status: true
                 });
+                counter++;
             }
             catch (error) {
-                console.log(`Failed to add ${SongArtist}-${SongName} to User ${email}`);
                 results.push({
                     error: error.message,
                     user: email,
@@ -69,6 +74,7 @@ let SongsService = class SongsService {
                 });
             }
         }
+        console.log(`[${timestamp}] Added ${counter}/${results.length} songs to User: ${email}`);
         connect.release();
         return results;
     }

@@ -1,4 +1,9 @@
+import { SongsService } from '../songs/songs.service';
 export declare class SpotifyWebApiService {
+    private readonly songsService;
+    private readonly logger;
+    constructor(songsService: SongsService);
+    private getTimestamp;
     getSpotifyId(authToken: any): Promise<{
         status: boolean;
         spotifyId: any;
@@ -52,4 +57,6 @@ export declare class SpotifyWebApiService {
         status: boolean;
         error?: undefined;
     }>;
+    removeSongsFromPlaylist(authToken: string, playlistId: string, songUris: string[], spotifyId: string): Promise<any>;
+    removeSongFromPlaylist(authToken: string, email: string, song: string): Promise<any>;
 }

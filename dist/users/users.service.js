@@ -11,6 +11,7 @@ require('dotenv').config();
 const node_process_1 = require("node:process");
 const common_1 = require("@nestjs/common");
 const promise_1 = require("mysql2/promise");
+const moment = require("moment-timezone");
 const DATABASE_PASSWORD = node_process_1.env.DATABASE_PASSWORD;
 const DATABASE_USER = node_process_1.env.DATABASE_USER;
 const DATABASE_HOST = node_process_1.env.DATABASE_HOST;
@@ -28,12 +29,16 @@ let UsersService = class UsersService {
             port: 3306,
         });
     }
+    getTimestamp() {
+        return moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm:ss');
+    }
     async createUser(email) {
         try {
             const connection = await this.pool.getConnection();
             const [result] = await connection.query(`INSERT INTO users (email, spotifyId) VALUES (?, NULL)`, [email]);
+            const timestamp = this.getTimestamp();
             connection.release();
-            console.log(`New User Created: ${email}`);
+            console.log(`[${timestamp}] New User Created: ${email}`);
             return {
                 message: 'User created successfully',
                 status: true,
@@ -61,9 +66,10 @@ let UsersService = class UsersService {
             }
             const connect = await this.pool.getConnection();
             const query = 'UPDATE users SET spotifyId = ? WHERE email = ?';
+            const timestamp = this.getTimestamp();
             const [result] = await connect.query(query, [spotifyId.spotifyId, email]);
             connect.release();
-            console.log(`Added Spotify ID ${spotifyId.spotifyId} to User ${email}`);
+            console.log(`[${timestamp}] Added Spotify ID ${spotifyId.spotifyId} to User: ${email}`);
             return {
                 message: `Added Spotify ID ${spotifyId.spotifyId} to User: ${email}`,
                 status: true,
